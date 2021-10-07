@@ -35,6 +35,8 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{path('liste_utilisateurs')}}">Utilisateur</a>
               </li>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODO')%}
             <li class="nav-item">
               <a class="nav-link" href="{{path('liste_commentaires')}}">Commentaire</a>
             </li>

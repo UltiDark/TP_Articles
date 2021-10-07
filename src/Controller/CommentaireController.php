@@ -59,8 +59,10 @@ class CommentaireController extends AbstractController
     */
     public function sup(Request $request, Commentaire $commentaire): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-
+        if (!$this->isGranted('ROLE_MODO')) {
+            $this->addFlash('error', 'accès interdit');
+            return $this->redirectToRoute('app_login');
+        }
         if ($this->isCsrfTokenValid('delete'.$commentaire->getId(), $request->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($commentaire);
@@ -95,7 +97,6 @@ class CommentaireController extends AbstractController
     public function noteMoins(Commentaire $commentaire)
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-
         $commentaire->setNome($commentaire->getNome()-1);
         $this->getDoctrine()->getManager()->flush();
 

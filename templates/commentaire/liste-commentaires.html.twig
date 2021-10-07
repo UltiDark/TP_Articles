@@ -7,13 +7,13 @@
 
     <div>
         {% for commentaire in commentaires %}
-            <div class="card">
+            <div class="card my-5">
                 <h5 class="card-header">Article : {{ commentaire.getIdArticle.getTitre }}</h5>
                 <div class="card-body">
                     <h5 class="card-title">Auteur : {{ commentaire.getIdAuteur.getPseudo}}</h5>
                     <p class="card-text">{{ commentaire.contenu }}</p>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('sup_commentaire', {'id': commentaire.id}) }}?csrf={{csrf_token('delete' ~ commentaire.id)}}" class="btn btn-danger">Supprimer</a>
+                    {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODO') %}
+                        <a href="{{ path('sup_commentaire', {'id': commentaire.id}) }}?csrf={{csrf_token('delete' ~ commentaire.id)}}" onclick="return confirm('Etes-vous sûr de vouloir le supprimer ce commentaire ?');" class="btn btn-danger">Supprimer</a>
                     {% endif %}
                 </div>
             </div>

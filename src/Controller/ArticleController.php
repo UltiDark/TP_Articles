@@ -64,12 +64,13 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('ajout_article', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('article/ajout.html.twig', [
+        return $this->renderForm('commun/formulaire.html.twig', [
             'article' => $article,
             'form' => $form,
+            'titre' => 'Ajouter un article'
         ]);
     }
 
@@ -111,7 +112,7 @@ class ArticleController extends AbstractController
     public function modif(Request $request, Article $article, SluggerInterface $slugger, UserInterface $user): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ECRIVAIN');
-        if($user->getId() != $article->getIdAuteur()){
+        if($user->getId() != $article->getIdAuteur()->getId()){
             return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -141,9 +142,10 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('liste_articles');
         }
 
-        return $this->renderForm('article/modif.html.twig', [
+        return $this->renderForm('commun/formulaire.html.twig', [
             'article' => $article,
             'form' => $form,
+            'titre' => 'Modifier un article'
         ]);
     }
 

@@ -50,9 +50,10 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('liste_utilisateurs', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('utilisateur/ajout.html.twig', [
+        return $this->renderForm('commun/formulaire.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+            'titre' => 'Ajouter un utilisateur'
         ]);
     }
 
@@ -84,9 +85,10 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('liste_utilisateurs', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('utilisateur/modif.html.twig', [
+        return $this->renderForm('commun/formulaire.html.twig', [
             'utilisateur' => $utilisateur,
             'form' => $form,
+            'titre' => 'Modifier un utilisateur'
         ]);
     }
     

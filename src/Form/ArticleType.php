@@ -27,7 +27,13 @@ class ArticleType extends AbstractType
                 'required' => false
 
             ])
-            ->add('contenu', TextareaType::class)
+            ->add('contenu', TextareaType::class,[
+                'attr' =>
+                [
+                    'placeholder' => 'Commentaire... ',
+                    'rows' => 10,
+                ]
+            ])
             ->add('submit', SubmitType::class, [
 				'label' => 'Envoyer'	
 			])        ;

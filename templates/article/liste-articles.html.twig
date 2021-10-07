@@ -19,7 +19,7 @@
                 <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning my-2">Modifier</a>
             {% endif %}
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" class="btn btn-danger">Supprimer</a>
+                <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" onclick="return confirm('Etes-vous sûr de vouloir le supprimer cet article?');" class="btn btn-danger">Supprimer</a>
             {% endif %}
           </div>
           <div class="card-footer text-muted">

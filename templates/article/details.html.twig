@@ -4,8 +4,8 @@
 
 {% block body %}
     <h1 class="text-center my-5">Article : {{ article.titre }}</h1>
-    <div class ="d-flex flex-column flex-lg-row">
-        <div class="card mr-2 mr-lg-5 w-100 w-lg-50">
+    <div class ="d-flex row">
+        <div class="card col-md-6 col-lg-4">
             <img class="card-img-top" src="../article-img{{asset(article.image)}}" alt="{{ article.titre }} invisible">
             <div class="card-body">
                 <h5 class="card-title">Auteur : {% if article.getIdAuteur().getPseudo() is defined %} {{article.getIdAuteur().getPseudo()}} {% else  %} auteur inconnu {% endif %}</h5>
@@ -16,13 +16,13 @@
                         <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning my-2">Modifier</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" class="btn btn-danger my-2">Supprimer</a>
+                        <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" onclick="return confirm('Etes-vous sûr de vouloir le supprimer cet article?');" class="btn btn-danger my-2">Supprimer</a>
                    {% endif %}
                 </div>
             </div>
         </div>
 
-        <div>
+        <div class="col-md-5 col-lg-7">
             <p>{{ article.contenu }}</p>
         </div>
     </div>
