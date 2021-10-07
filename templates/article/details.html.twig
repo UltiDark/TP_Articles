@@ -27,4 +27,16 @@
         </div>
     </div>
 
+    <h2 class="my-4"> Commentaire : </h2>
+
+    {% for commentaire in article.commentaires %}
+        <p><strong>{{commentaire.getIdAuteur().getPseudo()|upper}}</strong> : {{commentaire.contenu}}</p>
+    {% else %}
+        <p>no records found</p>
+    {% endfor %}
+
+    {% if is_granted('ROLE_USER')%}
+        {{ form(form) }}
+    {% endif %}
+
 {% endblock %}

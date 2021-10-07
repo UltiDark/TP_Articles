@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-5">Commentaire index</h1>
+
+    <div>
+        {% for commentaire in commentaires %}
+            <div class="card">
+                <h5 class="card-header">Article : {{ commentaire.getIdArticle.getTitre }}</h5>
+                <div class="card-body">
+                    <h5 class="card-title">Auteur : {{ commentaire.getIdAuteur.getPseudo}}</h5>
+                    <p class="card-text">{{ commentaire.contenu }}</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('sup_commentaire', {'id': commentaire.id}) }}?csrf={{csrf_token('delete' ~ commentaire.id)}}" class="btn btn-danger">Supprimer</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div>
+                <p class="text-center">no records found</p>
+            </div>
+        {% endfor %}
+    <div>
+
+{% endblock %}

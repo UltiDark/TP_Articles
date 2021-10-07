@@ -5,42 +5,33 @@
 {% block body %}
     <h1>Article index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Date_publication</th>
-                <th>Image</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div>
         {% for article in articles %}
-            <tr>
-                <td>{{ article.id }}</td>
-                <td>{{ article.titre }}</td>
-                <td>{{ article.contenu | slice(0, 100)}}...</td>
-                <td>{{ article.datePublication ? article.datePublication|date('Y-m-d') : '' }}</td>
-                <td>{{ article.image }}</td>
-                    <td class="d-flex flex-column">
-                        <a href="{{ path('details_article', {'id': article.id}) }}" class="btn btn-info">Détails</a>
-                        {% if is_granted('ROLE_ECRIVAIN') %}
-                            <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning my-2">Modifier</a>
-                        {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" class="btn btn-danger">Supprimer</a>
-                        {% endif %}
-                    </td>
-            </tr>
+        <div class="card text-center my-5">
+          <div class="card-header">
+            {{ article.titre }}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">De {% if article.getIdAuteur().getPseudo() is defined %} {{article.getIdAuteur().getPseudo()}} {% else  %} auteur inconnu {% endif %}</h5>
+            <p class="card-text">{{ article.contenu | slice(0, 100)}}...</p>
+            <a href="{{ path('details_article', {'id': article.id}) }}" class="btn btn-info">Détails</a>
+            {% if is_granted('ROLE_ECRIVAIN') and article.getIdAuteur().getId() is defined and article.getIdAuteur().getId() == app.user.id %}
+                <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning my-2">Modifier</a>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" class="btn btn-danger">Supprimer</a>
+            {% endif %}
+          </div>
+          <div class="card-footer text-muted">
+            {{ article.datePublication ? article.datePublication|date('Y-m-d') : '' }}
+          </div>
+        </div>
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+            <div>
+                <p class="text-center">Aucun article a été trouvé</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 
     {% if is_granted('ROLE_ECRIVAIN') %}
         <div class="text-center my-5">
