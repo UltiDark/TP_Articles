@@ -35,7 +35,7 @@ class Article
     private $date_publication;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, options={"default" : "default.jpg"})
      */
     private $image;
 

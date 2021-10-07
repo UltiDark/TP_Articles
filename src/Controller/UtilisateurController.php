@@ -69,6 +69,8 @@ class UtilisateurController extends AbstractController
     */
     public function modif(Request $request, Utilisateur $utilisateur): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $form = $this->createForm(UtilisateurType::class, $utilisateur);
         $form->handleRequest($request);
 
@@ -89,6 +91,7 @@ class UtilisateurController extends AbstractController
     */
     public function sup(Request $request, Utilisateur $utilisateur): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         if ($this->isCsrfTokenValid('delete'.$utilisateur->getId(), $request->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();

@@ -26,9 +26,12 @@
         </tbody>
     </table>
 
-    <div class="text-center my-5">
-        <a href="{{ path('liste_utilisateurs') }}" class="btn btn-secondary mx-2" >back to list</a>
-        <a href="{{ path('modif_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-warning mx-2">Modifier</a>
-        <a href="{{ path('sup_utilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}" class="btn btn-danger mx-2">Supprimer</a>
-    </div>
+        <div class="text-center my-5">
+            <a href="{{ path('liste_utilisateurs') }}" class="btn btn-secondary mx-2" >back to list</a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('modif_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-warning mx-2">Modifier</a>
+                <a href="{{ path('sup_utilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}" class="btn btn-danger mx-2">Supprimer</a>
+            {% endif %}
+        </div>
+
 {% endblock %}

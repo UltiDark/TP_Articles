@@ -31,7 +31,7 @@ class ArticleController extends AbstractController
     */
     public function ajout(Request $request, SluggerInterface $slugger): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted('ROLE_ECRIVAIN');
 
         $article = new Article();
         $article->setDatePublication(new \DateTime('now'));
@@ -53,6 +53,9 @@ class ArticleController extends AbstractController
                 } catch (FileException $e) {
                 }
                 $article->setImage($newFilename);
+            }
+            else{
+                $article->setImage('default.jpg');
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
@@ -81,12 +84,29 @@ class ArticleController extends AbstractController
     /**
      * @Route("/{id}/modif", name="modif_article")
     */
-    public function modif(Request $request, Article $article): Response
+    public function modif(Request $request, Article $article, SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ECRIVAIN');
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $lienFile = $form->get('image')->getData();
+            if ($lienFile) {
+                $originalFilename = pathinfo($lienFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$lienFile->guessExtension();
+                try {
+                    $lienFile->move(
+                        $this->getParameter('img_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+                $article->setImage($newFilename);
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
@@ -103,6 +123,8 @@ class ArticleController extends AbstractController
     */
     public function sup(Request $request, Article $article): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->query->get('csrf'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);

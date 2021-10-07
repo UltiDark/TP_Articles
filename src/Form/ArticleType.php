@@ -22,7 +22,10 @@ class ArticleType extends AbstractType
 				'widget' => 'single_text',
 				'input_format' => 'd/m/Y',
 			])
-            ->add('image', FileType::class)
+            ->add('image', FileType::class,[
+                'mapped' => false,
+                'required' => false
+            ])
             ->add('contenu', TextareaType::class)
             ->add('submit', SubmitType::class, [
 				'label' => 'Envoyer'	

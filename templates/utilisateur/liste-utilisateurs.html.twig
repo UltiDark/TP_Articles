@@ -20,11 +20,13 @@
                 <td>{{ utilisateur.id }}</td>
                 <td>{{ utilisateur.pseudo }}</td>
                 <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
                 <td class="text-center">
                     <a href="{{ path('details_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-info mx-2">Détails</a>
                     <a href="{{ path('modif_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-warning mx-2">Modifier</a>
                     <a href="{{ path('sup_utilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}" class="btn btn-danger mx-2">Supprimer</a>
                 </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
