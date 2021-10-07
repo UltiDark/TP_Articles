@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+
+    {# {{ variable }} permet d'utiliser une variable #}
+    <h1 class="my-5">Liste Articles en folie</h1>
+    {% for i in 0..5 %}
+
+    <p>
+      <span>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Error aspernatur culpa quasi dolorem mollitia, ut minus reiciendis exercitationem repellendus quis sequi. Corporis distinctio delectus incidunt fuga veritatis nihil sint ex! Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente, a explicabo deserunt veniam perferendis voluptas velit ab enim quia dicta? Molestias obcaecati sapiente quaerat a nihil nobis ratione odio at? Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque sint maxime culpa, odit, excepturi deleniti optio, rem rerum mollitia natus reiciendis libero eveniet temporibus vel enim! Assumenda et laborum dolorem.
+      </span>
+    </p>
+    {% endfor %}
+
+{% endblock %}
