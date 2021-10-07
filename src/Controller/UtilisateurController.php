@@ -45,6 +45,8 @@ class UtilisateurController extends AbstractController
             $entityManager->persist($utilisateur);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Un nouvel utilisateur a été créé !');
+
             return $this->redirectToRoute('liste_utilisateurs', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -77,6 +79,8 @@ class UtilisateurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('success', 'Une modification a été opéré !');
+
             return $this->redirectToRoute('liste_utilisateurs', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -97,6 +101,12 @@ class UtilisateurController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($utilisateur);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Un nouvel utilisateur a été supprimé !');
+
+        }
+        else{
+            $this->addFlash('error', 'La suppression avait échoué !');
         }
 
         return $this->redirectToRoute('liste_utilisateurs', [], Response::HTTP_SEE_OTHER);

@@ -64,7 +64,7 @@ class ArticleController extends AbstractController
             $entityManager->persist($article);
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('ajout_article', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('article/ajout.html.twig', [
@@ -91,7 +91,9 @@ class ArticleController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_commentaires', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Un nouveau article a été ajouté !');
+
+            return $this->redirectToRoute('liste_articles');
         }
 
         return $this->render('article/details.html.twig', [
@@ -132,7 +134,9 @@ class ArticleController extends AbstractController
             }
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Une modification a été opéré !');
+
+            return $this->redirectToRoute('liste_articles');
         }
 
         return $this->renderForm('article/modif.html.twig', [
@@ -152,8 +156,13 @@ class ArticleController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($article);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Un article a été supprimé !');
+        }
+        else{
+            $this->addFlash('error', 'La suppression a échoué !');
         }
 
-        return $this->redirectToRoute('liste_articles', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('liste_articles');
     }
 }

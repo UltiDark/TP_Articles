@@ -43,7 +43,9 @@ class CommentaireController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_commentaires', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Un nouveau commentaire a été ajouté !');
+
+            return $this->redirectToRoute('liste_commentaires');
         }
 
         return [
@@ -63,6 +65,12 @@ class CommentaireController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($commentaire);
             $entityManager->flush();
+
+            $this->addFlash('success', 'Un commentaire a été supprimé !');
+
+        }
+        else{
+            $this->addFlash('error', 'La suppression a échoué !');
         }
 
         return $this->redirectToRoute('liste_commentaires', [], Response::HTTP_SEE_OTHER);
