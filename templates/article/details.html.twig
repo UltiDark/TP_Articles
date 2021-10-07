@@ -12,7 +12,7 @@
                 <p class="card-text">Date : {{ article.datePublication ? article.datePublication|date('Y-m-d') : '' }}</p>
                 <div class="text-center d-flex flex-column">
                     <a href="{{ path('liste_articles') }}" class="btn btn-secondary my-2" >Retour</a>
-                    {% if is_granted('ROLE_ECRIVAIN') %}
+                    {% if is_granted('ROLE_ECRIVAIN') and article.getIdAuteur().getId() is defined and article.getIdAuteur().getId() == app.user.id %}
                         <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning my-2">Modifier</a>
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
