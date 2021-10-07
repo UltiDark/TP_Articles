@@ -75,4 +75,30 @@ class CommentaireController extends AbstractController
 
         return $this->redirectToRoute('liste_commentaires', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * @Route("/nome/{id}/plus", name="plus_note")
+     */
+    public function notePlus(Commentaire $commentaire)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $commentaire->setNome($commentaire->getNome()+1);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('details_article', ['id' => strval($commentaire->getIdArticle()->getId())]);
+    }
+
+    /**
+     * @Route("/nome/{id}/moins", name="moins_note")
+     */
+    public function noteMoins(Commentaire $commentaire)
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $commentaire->setNome($commentaire->getNome()-1);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('details_article', ['id' => strval($commentaire->getIdArticle()->getId())]);
+    }
 }

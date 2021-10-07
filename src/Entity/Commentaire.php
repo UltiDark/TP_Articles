@@ -38,6 +38,11 @@ class Commentaire
      */
     private $id_auteur;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $nome;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -87,6 +92,18 @@ class Commentaire
     public function setIdAuteur(?Utilisateur $id_auteur): self
     {
         $this->id_auteur = $id_auteur;
+
+        return $this;
+    }
+
+    public function getNome(): ?int
+    {
+        return $this->nome;
+    }
+
+    public function setNome(int $nome): self
+    {
+        $this->nome = $nome;
 
         return $this;
     }

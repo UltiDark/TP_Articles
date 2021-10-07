@@ -87,13 +87,15 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $commentaire->setIdArticle($article);
             $commentaire->setIdAuteur($user);
+            $commentaire->setNome(0);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($commentaire);
             $entityManager->flush();
 
             $this->addFlash('success', 'Un nouveau article a été ajouté !');
 
-            return $this->redirectToRoute('liste_articles');
+            return $this->redirectToRoute('details_article', ['id' => $article->getId()]);
         }
 
         return $this->render('article/details.html.twig', [
