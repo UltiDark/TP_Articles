@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block body %}
+    <h1>Article index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Date_publication</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.id }}</td>
+                <td>{{ article.titre }}</td>
+                <td>{{ article.contenu }}</td>
+                <td>{{ article.datePublication ? article.datePublication|date('Y-m-d') : '' }}</td>
+                <td>{{ article.image }}</td>
+                <td>
+                    <a href="{{ path('details_article', {'id': article.id}) }}" class="btn btn-info mx-2">Détails</a>
+                    <a href="{{ path('modif_article', {'id': article.id}) }}" class="btn btn-warning mx-2">Modifier</a>
+                    <a href="{{ path('sup_article', {'id': article.id}) }}?csrf={{csrf_token('delete' ~ article.id)}}" class="btn btn-danger mx-2">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-center my-5">
+        <a href="{{ path('ajout_article') }}" class="btn btn-primary"><strong>Ajouter</strong></a>
+    </div>
+{% endblock %}

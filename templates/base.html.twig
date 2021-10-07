@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>{% block title %}Titre par defaut {% endblock %} | college fou fou fou</title>
+  <title>{% block title %}Titre par defaut {% endblock %} | Biblio Article</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,17 +26,24 @@
               <a class="nav-link" aria-current="page" href="{{path('accueil')}}">Accueil</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Article</a>
+              <a class="nav-link" href="{{path('liste_articles')}}">Article</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Utilisateur</a>
+              <a class="nav-link" href="{{path('liste_utilisateurs')}}">Utilisateur</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{{path('cgu')}}">CGU</a>
             </li>
-            <!--<li class="nav-item">
-              <a class="nav-link" href="#">Contacter</a>
-            </li>-->
+
+            {% if is_granted('ROLE_USER') %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>

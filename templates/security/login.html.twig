@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        {% if app.user %}
+            <div class="mb-3">
+                Vous êtes déjà connectés en tant que : {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
+
+        <h1 class="h3 my-5 font-weight-normal text-center">Demande de connexion</h1>
+
+        <div class="my-3">
+            <label for="inputPseudo">Pseudo</label>
+            <input type="text" value="{{ last_username }}" name="pseudo" id="inputPseudo" class="form-control" autocomplete="username" required autofocus>
+        </div>
+
+        <div class=" my-3">
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="checkbox my-3 text-center">
+            <label> <input type="checkbox" name="_remember_me"> Remember me </label>
+        </div>
+    
+        <div class="text-center mb-5">
+            <button class="btn btn-lg btn-primary" type="submit"> Connexion </button>
+        </div>
+    </form>
+
+    <p class="text-center">Vous n'avez pas encore de compte ? <a href="{{ path('app_register') }}">Créez-en un !</a></p>
+{% endblock %}

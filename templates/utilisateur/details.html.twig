@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateur{% endblock %}
+
+{% block body %}
+    <h1 class="my-5 text-center">Utilisateur : {{ utilisateur.pseudo }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ utilisateur.id }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ utilisateur.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ utilisateur.roles ? utilisateur.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ utilisateur.password }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-center my-5">
+        <a href="{{ path('liste_utilisateurs') }}" class="btn btn-secondary mx-2" >back to list</a>
+        <a href="{{ path('modif_utilisateur', {'id': utilisateur.id}) }}" class="btn btn-warning mx-2">Modifier</a>
+        <a href="{{ path('sup_utilisateur', {'id': utilisateur.id}) }}?csrf={{csrf_token('delete' ~ utilisateur.id)}}" class="btn btn-danger mx-2">Supprimer</a>
+    </div>
+{% endblock %}
